@@ -53,6 +53,23 @@ public class ArrayOperation{
 		}
 	}
 
+	public static long atoi(String str) {
+		long integer=0; 
+		int sign=1;
+		for (int i=0; i<str.length(); i++) {
+			if (str.charAt(i)=='-') {
+				sign *= -1;
+			} else if (str.charAt(i)=='+') {
+				continue;
+			} else if (str.charAt(i)=='.') {
+				break;
+			} else if (str.charAt(i)>='0' && str.charAt(i)<='9') {
+				integer = integer*10 + (str.charAt(i) - '0');
+			} else return 0;
+		}
+		if (sign > 0) return integer; else return -integer;
+	}
+
 	public static void arrayUpdateTest(int[] array){
 //array variable is the reference of original array, not the copy of the array,
 // so its change here can be seen outside the function
@@ -74,5 +91,11 @@ public class ArrayOperation{
 		}
 		arrayUpdateTest(b);
 		System.out.println(b[0]);	//print 100, so the change in arrayUpdateTest can be seen here
+assciToInteger:	{
+			String str = "+1234";
+			String str1 = "-1234.5";
+			String str2 = "-123a4.5";
+			System.out.print(""+atoi(str)+", "+atoi(str1)+", "+atoi(str2)+"\n");
+		}
 	}
 }
