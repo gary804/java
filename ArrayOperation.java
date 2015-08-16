@@ -1,5 +1,7 @@
 
 import java.util.StringTokenizer;
+//import java.util.*;	//for Array
+import java.util.Arrays;
 
 public class ArrayOperation{
 	public static boolean hasDuplicate(int[] array) {
@@ -136,6 +138,38 @@ public class ArrayOperation{
 		return st;
 	}
 
+	public	static int[] merge(int[] a1, int[] a2){
+		int[] array = new int[a1.length+a2.length];
+		for (int i=0, i1=0,i2=0; i<array.length; i++){
+			if (i1<a1.length&&i2<a2.length){
+				array[i] = (a1[i1]<=a2[i2])?a1[i1++]:a2[i2++];
+			} else if (i1<a1.length) {
+				array[i] = a1[i1++];
+			} else {array[i] = a2[i2++];}
+		}
+		return array;
+	}
+
+	public static int[] mergeSort(int[] array){
+		if (array.length==1) return array;
+		int l = array.length/2;
+		//System.out.println("l="+l);
+
+		//Arrays.copyOfRange(Object[] src, int from, int to);	//"int to" is not included in the substring
+		int[] a1 = Arrays.copyOfRange(array, 0, l);
+		int[] a2 = Arrays.copyOfRange(array, l, array.length);
+		/*
+		for (int i:a1) System.out.print(i+",");
+		System.out.println();
+		for (int i:a2) System.out.print(i+",");
+		System.out.println();
+		*/
+		int[] a3 = mergeSort(a1);
+		int[] a4 = mergeSort(a2);
+		int[] a5 = merge(a3, a4);
+		return a5;
+	}
+
 	public static void main(String[] args) {
 		int[] a={0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 		int[] b={1,2,3,4,8,5,6,7,8,9,0};
@@ -161,17 +195,32 @@ assciToInteger:	{
 			System.out.print(""+atoi(str)+", "+atoi(str1)+", "+atoi(str2)+"\n");
 		}
 reverseStringTest: {
-		String str = "Write a function to reverse the order of words in a string in place.";
-		System.out.println("'"+reverse_words(str)+"'");
-		System.out.println("'"+reverse_words1(str)+"'");
-		System.out.println("'"+reverse_words2(str)+"'");
-		System.out.println("'"+reverse_words3(str)+"'");
-		System.out.println("'"+reverse_words("")+"'");
-		System.out.println("'"+reverse_words1("")+"'");
-		System.out.println("'"+reverse_words2("")+"'");
-		System.out.println("'"+reverse_words3("")+"'");
-		System.out.println("'"+reverse_characters(str)+"'");
-		System.out.println("'"+reverse_characters1(str)+"'");
+			String str = "Write a function to reverse the order of words in a string in place.";
+			System.out.println("'"+reverse_words(str)+"'");
+			System.out.println("'"+reverse_words1(str)+"'");
+			System.out.println("'"+reverse_words2(str)+"'");
+			System.out.println("'"+reverse_words3(str)+"'");
+			System.out.println("'"+reverse_words("")+"'");
+			System.out.println("'"+reverse_words1("")+"'");
+			System.out.println("'"+reverse_words2("")+"'");
+			System.out.println("'"+reverse_words3("")+"'");
+			System.out.println("'"+reverse_characters(str)+"'");
+			System.out.println("'"+reverse_characters1(str)+"'");
+		}
+mergeSortTesting: {
+			int[] a1 = {0,4,6,8};
+			int[] a2 = {5,7,9};
+			int[] a3 = merge(a1, a2);
+			for(int i: a3){
+				System.out.print(i+", ");
+			}
+			System.out.println();
+			int[] a4 = {7,6,3,1,4,2,0,5,8,9};
+			int[] a5 = mergeSort(a4);
+			for(int i: a5){
+				System.out.print(i+", ");
+			}
+			System.out.println();
+		}
 	}
-}
 }
