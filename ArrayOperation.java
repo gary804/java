@@ -169,6 +169,30 @@ public class ArrayOperation{
 		int[] a5 = merge(a3, a4);
 		return a5;
 	}
+	public static int[] mergeSortIterate(int[] array){
+		int subgroupSize;
+		int rightGroupSize;
+		for (subgroupSize=1; subgroupSize<=array.length/2;subgroupSize*=2){
+			for (int subgroupStartPosition=0; subgroupStartPosition<array.length; subgroupStartPosition+=2*subgroupSize){
+				if (subgroupStartPosition+subgroupSize>=array.length){
+					break;
+				} else if (subgroupStartPosition+2*subgroupSize>array.length){
+					rightGroupSize = array.length - (subgroupStartPosition+subgroupSize);
+				} else rightGroupSize = subgroupSize;
+				
+				int[] a1 = Arrays.copyOfRange(array, subgroupStartPosition, subgroupStartPosition+subgroupSize);
+				int[] a2 = Arrays.copyOfRange(array, subgroupStartPosition+subgroupSize, subgroupStartPosition+subgroupSize+rightGroupSize);
+				int[] a3 = merge(a1, a2);
+				//for (int i=0; i<subgroupSize+rightGroupSize; i++) array[subgroupStartPosition+i] = a3[i];	//works
+				for (int i=0; i<a3.length; i++) array[subgroupStartPosition+i] = a3[i];	//works
+			}
+		}
+		int[] a1 = Arrays.copyOfRange(array, 0, subgroupSize);
+		int[] a2 = Arrays.copyOfRange(array, subgroupSize, array.length);
+		int[] a3 = merge(a1, a2);
+		return a3;
+	}
+
 
 	public static void main(String[] args) {
 		int[] a={0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
@@ -208,15 +232,18 @@ reverseStringTest: {
 			System.out.println("'"+reverse_characters1(str)+"'");
 		}
 mergeSortTesting: {
+			System.out.print("Merge test:\n");
 			int[] a1 = {0,4,6,8};
 			int[] a2 = {5,7,9};
 			int[] a3 = merge(a1, a2);
 			for(int i: a3){
 				System.out.print(i+", ");
 			}
+			System.out.print("\nMergeSort test:\n");
 			System.out.println();
-			int[] a4 = {7,6,3,1,4,2,0,5,8,9};
-			int[] a5 = mergeSort(a4);
+			int[] a4 = {16,7,13,6,3,11,1,4,12,2,10,0,15,14,5,8,9};
+			//int[] a5 = mergeSort(a4);
+			int[] a5 = mergeSortIterate(a4);
 			for(int i: a5){
 				System.out.print(i+", ");
 			}
