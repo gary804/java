@@ -180,7 +180,10 @@ public class ArrayOperation{
 					rightGroupSize = array.length - (subgroupStartPosition+subgroupSize);
 				} else rightGroupSize = subgroupSize;
 				
-				int[] a1 = Arrays.copyOfRange(array, subgroupStartPosition, subgroupStartPosition+subgroupSize);
+				//int[] a1 = Arrays.copyOfRange(array, subgroupStartPosition, subgroupStartPosition+subgroupSize); //works
+				int[] a1 = new int[subgroupSize];
+				for (int i=0; i<subgroupSize; i++){ a1[i]=array[subgroupStartPosition+i];}
+				
 				int[] a2 = Arrays.copyOfRange(array, subgroupStartPosition+subgroupSize, subgroupStartPosition+subgroupSize+rightGroupSize);
 				int[] a3 = merge(a1, a2);
 				//for (int i=0; i<subgroupSize+rightGroupSize; i++) array[subgroupStartPosition+i] = a3[i];	//works
@@ -191,6 +194,31 @@ public class ArrayOperation{
 		int[] a2 = Arrays.copyOfRange(array, subgroupSize, array.length);
 		int[] a3 = merge(a1, a2);
 		return a3;
+	}
+
+	public static void quickSort(int[] array, int startIndex, int endIndex){
+		int pivot = array[startIndex+(endIndex-startIndex)/2];
+		int i = startIndex;
+		int j = endIndex;
+		int temp;
+		if ( endIndex-startIndex<=1 ) {
+			if (array[startIndex] > array[endIndex]) {
+				temp = array[startIndex];
+				array[startIndex] = array[endIndex];
+				array[endIndex] = temp;
+			}
+			return;
+		}
+		while(i<j) {
+			while( array[i] < pivot ) i++;
+			while( array[j] > pivot ) j--;
+			if ( i>=j ) break;
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		if ( i-1 - startIndex >=1 ) quickSort(array, startIndex, i-1);
+		if ( endIndex - i >=1 ) quickSort(array, i, endIndex);
 	}
 
 
@@ -231,7 +259,7 @@ reverseStringTest: {
 			System.out.println("'"+reverse_characters(str)+"'");
 			System.out.println("'"+reverse_characters1(str)+"'");
 		}
-mergeSortTesting: {
+SortTesting: {
 			System.out.print("Merge test:\n");
 			int[] a1 = {0,4,6,8};
 			int[] a2 = {5,7,9};
@@ -240,11 +268,16 @@ mergeSortTesting: {
 				System.out.print(i+", ");
 			}
 			System.out.print("\nMergeSort test:\n");
-			System.out.println();
 			int[] a4 = {16,7,13,6,3,11,1,4,12,2,10,0,15,14,5,8,9};
 			//int[] a5 = mergeSort(a4);
 			int[] a5 = mergeSortIterate(a4);
 			for(int i: a5){
+				System.out.print(i+", ");
+			}
+			System.out.print("\nquickSort test:\n");
+			int[] a6 = {16,7,13,6,3,11,1,4,12,2,10,0,15,14,5,8,9};
+			quickSort(a6, 0, a4.length-1);
+			for(int i: a6){
 				System.out.print(i+", ");
 			}
 			System.out.println();
