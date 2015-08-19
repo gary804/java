@@ -201,6 +201,8 @@ public class ArrayOperation{
 		int i = startIndex;
 		int j = endIndex;
 		int temp;
+		//System.out.println("startIndex="+startIndex+",endIndex="+endIndex+",pivot="+pivot);
+		//for (int i1:array) System.out.print(","+i1); System.out.println();
 		if ( endIndex-startIndex<=1 ) {
 			if (array[startIndex] > array[endIndex]) {
 				temp = array[startIndex];
@@ -210,15 +212,27 @@ public class ArrayOperation{
 			return;
 		}
 		while(i<j) {
-			while( array[i] < pivot ) i++;
-			while( array[j] > pivot ) j--;
+			while( array[i] < pivot ) {
+				i++;
+			}
+			while( array[j] > pivot ) {
+				j--;
+			}
 			if ( i>=j ) break;
 			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			array[i++] = array[j];
+			array[j--] = temp;
 		}
-		if ( i-1 - startIndex >=1 ) quickSort(array, startIndex, i-1);
-		if ( endIndex - i >=1 ) quickSort(array, i, endIndex);
+		//System.out.println("i="+i+",j="+j+",pivot="+pivot);
+		//for (int i1:array) System.out.print(","+i1); System.out.println();
+		if ( i-1 - startIndex >=1 ) 
+			quickSort(array, startIndex, i-1);
+		else
+			quickSort(array, startIndex, i);
+		if ( endIndex - i >=1 )
+			quickSort(array, i, endIndex);
+		else
+			quickSort(array, i-1, endIndex);
 	}
 
 
@@ -275,8 +289,8 @@ SortTesting: {
 				System.out.print(i+", ");
 			}
 			System.out.print("\nquickSort test:\n");
-			int[] a6 = {16,7,13,6,3,11,1,4,12,2,10,0,15,14,5,8,9};
-			quickSort(a6, 0, a4.length-1);
+			int[] a6 = {15,0,8,8,8,8,2,6,10,14,4,12,1,11,9,9,9,9,9,3,7,5,13};
+			quickSort(a6, 0, a6.length-1);
 			for(int i: a6){
 				System.out.print(i+", ");
 			}
