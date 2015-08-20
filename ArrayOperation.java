@@ -235,6 +235,42 @@ public class ArrayOperation{
 			quickSort(array, i-1, endIndex);
 	}
 
+	public static int findKthElement(int[] array, int kth, int startIndex, int endIndex){
+		int i = startIndex;
+		int j = endIndex;
+		int pivot = array[startIndex + (endIndex-startIndex)/2];
+		int temp;
+		//System.out.println("<<<<<<kth="+kth+",startIndex="+startIndex+",endIndex="+endIndex);
+		//for (int i1: array) System.out.print(","+i1); System.out.println();
+		if (endIndex-startIndex<=1){
+			if (array[startIndex]>array[endIndex]){
+				temp = array[startIndex];
+				array[startIndex] = array[endIndex];
+				array[endIndex] = temp;
+			}
+			return array[kth-1];
+		}
+		while(i<j){
+			while(array[i]<pivot) i++;
+			while(array[j]>pivot) j--;
+			if (i>=j) break;
+			temp = array[i];
+			array[i++] = array[j];
+			array[j--] = temp;
+		}
+		//System.out.println(">>>>>>pivot="+pivot+",i="+i+",j="+j);
+		//for (int i1: array) System.out.print(","+i1); System.out.println();
+
+		if (i>=kth){
+			//return findKthElement(array, kth, startIndex, (i-1!=startIndex)? i-1:i); //will cause problem
+			//return findKthElement(array, kth, 0, (i-1!=startIndex)? i-1:i); //works
+			return findKthElement(array, kth, 0, j);
+		} else {
+			//return findKthElement(array, kth, (endIndex!=i)? i:i-1, endIndex); //works
+			return findKthElement(array, kth, i, endIndex);	//works
+		}
+	}
+
 
 	public static void main(String[] args) {
 		int[] a={0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
@@ -289,12 +325,22 @@ SortTesting: {
 				System.out.print(i+", ");
 			}
 			System.out.print("\nquickSort test:\n");
-			int[] a6 = {15,0,8,8,8,8,2,6,10,14,4,12,1,11,9,9,9,9,9,3,7,5,13};
+			int[] a6 = {15,0,8,8,2,6,10,14,4,12,1,11,9,3,7,5,13};
 			quickSort(a6, 0, a6.length-1);
 			for(int i: a6){
 				System.out.print(i+", ");
 			}
 			System.out.println();
+
+			//int [] a7 = {15,0,8,8,2,6,10,14,4,12,1,11,9,3,7,5,13};
+			int [] a7 = {15,0,8,2,6,10,14,4,12,1,11,9,3,7,5,13};
+			System.out.print("array is ");for (int i: a7) System.out.print(i+", ");System.out.println();
+			int[] a8;
+			for (int i=1; i<=a7.length; i++){
+				a8 = Arrays.copyOfRange(a7, 0, a7.length);
+				System.out.println(i+"th element is "+findKthElement(a8, i, 0, a7.length-1 ));
+			}
+			
 		}
 	}
 }
