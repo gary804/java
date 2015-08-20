@@ -264,9 +264,29 @@ public class ArrayOperation{
 		if (i>=kth){
 			//return findKthElement(array, kth, startIndex, (i-1!=startIndex)? i-1:i); //will cause problem
 			//return findKthElement(array, kth, 0, (i-1!=startIndex)? i-1:i); //works
-			return findKthElement(array, kth, 0, j);
+			
+			//return findKthElement(array, kth, 0, j);	//works
+			if (i==j){
+				return findKthElement(array, kth, startIndex, i);
+			} else {
+				return findKthElement(array, kth, startIndex, i-1);
+			}
 		} else {
 			//return findKthElement(array, kth, (endIndex!=i)? i:i-1, endIndex); //works
+			/*
+			for (j=i-1; j>=startIndex; j--){
+				if (array[j]>array[i]) {
+					temp = array[i];
+					array[i] = array[j];
+					array[j] = temp;
+				}
+			}
+			*/
+			if(i>0 && array[i-1]>array[i]){
+					temp = array[i];
+					array[i] = array[i-1];
+					array[i-1] = temp;
+			}
 			return findKthElement(array, kth, i, endIndex);	//works
 		}
 	}
