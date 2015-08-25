@@ -25,7 +25,7 @@ public class NearestNeighbor{
 	public static void main(String[] args){
 		List<Person> people = new ArrayList<Person>();
 		for (char a='a'; a<='z'; a++){
-			Person person = new Person(""+a, (long) (Math.random() * 100));
+			Person person = new Person(""+a, (long) (Math.random() * 100));	//randomNumber is: 0~99
 			people.add(person);
 		}
 		System.out.println("Initial List: "+people);
@@ -37,10 +37,10 @@ public class NearestNeighbor{
 		});
 		System.out.println("Initial Sorted List: "+people);
 
+		/* works
 		Iterator<Person> iterator = people.iterator();
 		while (iterator.hasNext()) {
 			final Person personi = iterator.next();
-			//System.out.println(";" + personi.name +":"+ personi.location);
 			int index = people.indexOf(personi);
 			int startIndex = Math.max(index-3, 0);
 			int endIndex =  Math.min(index+3, people.size()-1);
@@ -58,30 +58,24 @@ public class NearestNeighbor{
 			temp = temp.subList(0, 3);
 			System.out.println(personi+": "+temp);
 		}
+		*/
+		for (int i=0; i<people.size();i++){
+			final Person personi = people.get(i);
+			int startIndex = Math.max(i-3, 0);
+			int endIndex = Math.min(i+3, people.size()-1);
+			List<Person> piList = new ArrayList<Person>();
+			for(int j=startIndex; j<= endIndex; j++){
+				if (j==i) continue;
+				piList.add(people.get(j));
+			}
+			Collections.sort(piList, new Comparator<Person>(){
+				@Override
+				public int compare(Person p1, Person p2){
+					return (Math.abs(p1.location-personi.location))>(Math.abs(p2.location-personi.location))?1:-1;
+				}
+			});
+			piList = piList.subList(0,3);
+			System.out.println(personi+": "+piList);
+		}
 	}
 }
-
-/*
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-
-public class NearestNeighbor {
-    public static void main(String[] args) {
-        List list = new ArrayList();
-        for (int i=0;i<10;i++) {
-            list.add((int) (Math.random() * 100));
-        }
-        System.out.println("Initial List: "+list);
-        Collections.sort(list, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer i1, Integer i2) {
-                return (i2.intValue() > i1.intValue()) ? 1 : -1;
-            }
-        });
-        System.out.println("Sorted List: "+list);
-    }
-}
-*/
